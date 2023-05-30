@@ -3,38 +3,31 @@
 using namespace std;
 
 // } Driver Code Ends
-
 class Solution {
   public:
-    bool matchPattern(string& word, string& patternToMatch) {
-        string patternInWord = "";
-        
-        for(char c: word) {
-            if(isupper(c)) patternInWord += c;
-            if(patternInWord == patternToMatch) return true;
-        } 
-        
-        return patternInWord == patternToMatch;
-    }
-    
-    vector<string> CamelCase(int n, vector<string> dictionary, string pattern) {
+    vector<string> CamelCase(int N, vector<string> Dictionary, string Pattern) {
         // code here
         vector<string> ans;
-        
-        for(string word: dictionary) {
-            if(matchPattern(word, pattern)) {
-                ans.push_back(word);
+        for(int i=0;i<Dictionary.size();i++){
+            string str="";
+            bool flag=true;
+            for(int j=0;j<Dictionary[i].length();j++){
+                char ch=Dictionary[i][j];
+                if(ch>='A'&&ch<='Z'){
+                    str+=ch;
+                }
+                if(str==Pattern&&flag){
+                    //cout<<Pattern<<"-"<<str<<endl;
+                    ans.push_back(Dictionary[i]);
+                    flag=false;
+                }
             }
         }
-        
-        sort(begin(ans), end(ans));
-        
-        if(ans.empty()) ans.push_back("-1");
-        
+        if(ans.size()==0)
+        return {"-1"};
         return ans;
     }
 };
-
 
 //{ Driver Code Starts.
 int main() {
