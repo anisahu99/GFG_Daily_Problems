@@ -6,34 +6,36 @@ using namespace std;
 class Solution {
   public:
   
-  
-  long long int func(int ind,int coins[],int sum,vector<vector<int long long >>&dp){
-      if(sum==0){
-          return 1;
-      }
-      if(ind==-1){
-          return 0;
-      }
-    //   if(ind==0){
-    //       if(sum%coins[0]==0) return 1;
-    //       else return 0;
-    //   }
-      if(dp[ind][sum]!=-1) return dp[ind][sum];
-      int long long dont=func(ind-1,coins,sum,dp);
-      int long long take=0;
-      if(coins[ind]<=sum){
-          take=func(ind,coins,sum-coins[ind],dp);
-      }
-      
-      return dp[ind][sum]= dont+take;
-  }
+      long long int solveTab(int coins[],int N,int sum)
+    {
+        vector<vector<long long int>> dp(N+1,vector<long long int>(sum+1,0));
+        for(int i=0;i<=N;i++)
+        {
+            dp[i][0]=1;
+        }
+        for(int i=N-1;i>=0;i--)
+        {
+            for(int j=1;j<=sum;j++)
+            {
+              long long  int take=0,notake=0;
+                if(j>=coins[i])
+                {
+                    take=(long long)dp[i][j-coins[i]];
+                }
+                notake=dp[i+1][j];
+                dp[i][j]=(long long)(take+notake);
+              //  cout<<dp[i][j]<<endl;
+            }
+        }
+        return(dp[0][sum]);
+    }
     long long int count(int coins[], int N, int sum) {
 
         // code here.
-        vector<vector<int long long>> dp(N,vector<int long long>(sum+1,-1));
-        return func(N-1,coins,sum,dp);
+        return solveTab(coins,N,sum);
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
