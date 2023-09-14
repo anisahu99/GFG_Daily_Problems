@@ -6,40 +6,28 @@ using namespace std;
 class Solution{
 
 	public:
-	#define mod 1000000007
-	int findWaysUtil(int ind, int target, int arr[], vector<vector<int>> &dp){
-     if(ind==0){
-
-        if(target==0 && arr[0]==0)
-
-        return 2;
-
-        if(target==0 || arr[0]==target)
-
-        return 1;
-
-        return 0;
-
-    }
-    
-    if(dp[ind][target]!=-1)
-        return dp[ind][target]%mod;
-        
-    int notTaken = findWaysUtil(ind-1,target,arr,dp);
-    
-    int taken = 0;
-    if(arr[ind]<=target)
-        taken = findWaysUtil(ind-1,target-arr[ind],arr,dp);
-        
-    return dp[ind][target]= (notTaken + taken)%mod;
-}
-	
+	int mod=1e9+7;
+	int solve(int i,int target,int &n,int &sum,int arr[],vector<vector<int>> &dp){
+	    if(i==n){
+	        if(target==sum) return 1;
+	        else return 0;
+	    }
+	    if(dp[i][target]!=-1) return dp[i][target];
+	    int cnt=0;
+	    if(arr[i]+target<=sum){
+	        cnt=(cnt%mod+solve(i+1,arr[i]+target,n,sum,arr,dp)%mod)%mod;
+	    }
+	    
+	    int not_take=solve(i+1,target,n,sum,arr,dp)%mod;
+	    
+	    return dp[i][target]=(cnt+not_take)%mod;
+	}
 	int perfectSum(int arr[], int n, int sum)
 	{
         // Your code goes here
         
         vector<vector<int>> dp(n,vector<int>(sum+1,-1));
-        return findWaysUtil(n-1,sum,arr,dp)%mod;
+        return solve(0,0,n,sum,arr,dp);
 	}
 	  
 };
