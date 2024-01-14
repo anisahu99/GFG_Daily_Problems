@@ -15,11 +15,9 @@ class Solution {
             }
         }
         queue<int> q;
-        int cnt=0;
         for(int i=0;i<N;i++){
             if(indegree[i]==0){
                 q.push(i);
-                cnt++;
             }
         }
         while(!q.empty()){
@@ -28,13 +26,16 @@ class Solution {
                 indegree[v]--;
                 if(indegree[v]==0){
                     q.push(v);
-                    cnt++;
                 }
             }
         }
-        return cnt<N?true:false;
+        for(int val:indegree){
+            if(val) return true;
+        }
+        return false;
     }
 };
+
 
 //{ Driver Code Starts.
 
