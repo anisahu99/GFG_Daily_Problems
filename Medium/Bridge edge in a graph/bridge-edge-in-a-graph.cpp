@@ -15,13 +15,12 @@ class Solution
             if(nbr==parent) continue;
             if(!vis[nbr]){
                 dfs(nbr,node,timer,t,low,vis,adj,c,d,ans);
-                low[node]=min(low[node],low[nbr]);
-                if(low[nbr]>t[node]){
-                    if((node==c||node==d)&&(nbr==c||nbr==d)) ans=1;
-                }
             }
-            else{
+            if(vis[nbr]){
                 low[node]=min(low[node],low[nbr]);
+            }
+            if(low[nbr]>t[node]){
+                if((node==c||node==d)&&(nbr==c||nbr==d)) ans=1;
             }
         }
     }
@@ -39,6 +38,7 @@ class Solution
         return ans;
     }
 };
+
 
 //{ Driver Code Starts.
 
